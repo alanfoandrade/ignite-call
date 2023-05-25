@@ -14,3 +14,5 @@ export function TextArea({
     </textarea>
   );
 }
+
+TextArea.displayName = 'TextArea';

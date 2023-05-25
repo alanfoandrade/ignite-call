@@ -21,3 +21,5 @@ export function Checkbox({ onClick, ...props }: CheckboxProps) {
     </Root>
   );
 }
+
+Checkbox.displayName = 'Checkbox';

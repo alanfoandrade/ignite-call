@@ -1,10 +1,9 @@
-import { Checkbox } from '@/components/Checkbox';
+import { MultiStep } from '@/components/MultiStep';
 
 export default function Home() {
   return (
     <div className="flex border-2 border-gray-400">
-      <Checkbox />
-      <p>clique me</p>
+      <MultiStep steps={4} currentStep={2} />
     </div>
   );
 }
