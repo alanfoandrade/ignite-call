@@ -1,3 +1,10 @@
+import { Checkbox } from '@/components/Checkbox';
+
 export default function Home() {
-  return <h1>hello</h1>
+  return (
+    <div className="flex border-2 border-gray-400">
+      <Checkbox />
+      <p>clique me</p>
+    </div>
+  );
 }
