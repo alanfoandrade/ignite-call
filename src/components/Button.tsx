@@ -11,48 +11,46 @@ export function Button({
   variant = 'primary',
   ...props
 }: ButtonProps) {
-  let className =
-    'rounded-md text-sm font-normal text-center min-w-[120px] box-border py-0 px-4 flex items-center justify-center gap-2 cursor-pointer disabled:cursor-not-allowed focus:shadow-[0_0_0_2px_gray-100]';
+  let sizeStyles = '';
+  let variantStyles = '';
 
   switch (size) {
     case 'sm':
-      className = className.concat(' h-9');
+      sizeStyles = 'h-10';
 
       break;
 
     case 'md':
-      className = className.concat(' h-11');
+      sizeStyles = 'h-12';
 
       break;
   }
 
   switch (variant) {
     case 'primary':
-      className = className.concat(
-        ' text-white bg-green-500 enabled:hover:bg-green-300 disabled:bg-gray-200',
-      );
+      variantStyles =
+        'text-white bg-green-500 enabled:hover:bg-green-300 disabled:bg-gray-200';
 
       break;
 
     case 'secondary':
-      className = className.concat(
-        ' text-green-300 border-2 border-green-500 enabled:hover:bg-green-500 enabled:hover:text-white disabled:text-gray-200 disabled:border-gray-200',
-      );
+      variantStyles =
+        'text-green-300 border-2 border-green-500 enabled:hover:bg-green-500 enabled:hover:text-white disabled:text-gray-200 disabled:border-gray-200';
 
       break;
 
     case 'tertiary':
-      className = className.concat(
-        ' text-gray-100 enabled:hover:text-white disabled:text-gray-400 disabled:border-gray-400',
-      );
+      variantStyles =
+        'text-gray-100 enabled:hover:text-white disabled:text-gray-400 disabled:border-gray-400';
 
       break;
   }
   return (
-    <button {...props} className={className}>
+    <button
+      {...props}
+      className={`box-border flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-0 text-center text-sm font-normal duration-200 ease-in-out focus:shadow-[0_0_0_2px_gray-100] disabled:cursor-not-allowed ${sizeStyles} ${variantStyles}`}
+    >
       {children}
     </button>
   );
 }
-
-Button.displayName = 'Button';

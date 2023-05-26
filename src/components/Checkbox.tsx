@@ -1,8 +1,6 @@
-'use client';
-
-import { Check } from 'phosphor-react';
 import { Root, Indicator } from '@radix-ui/react-checkbox';
 import { ComponentProps } from 'react';
+import { Check } from 'lucide-react';
 
 export type CheckboxProps = ComponentProps<typeof Root>;
 
@@ -16,10 +14,8 @@ export function Checkbox({ onClick, ...props }: CheckboxProps) {
         className={`h-4 w-4 text-white data-[state=checked]:animate-slideIn data-[state=unchecked]:animate-slideOut`}
         asChild
       >
-        <Check weight="bold" />
+        <Check className="font-bold" />
       </Indicator>
     </Root>
   );
 }
-
-Checkbox.displayName = 'Checkbox';

@@ -10,5 +10,3 @@ export function Box({ children, ...props }: HTMLAttributes<HTMLDivElement>) {
     </div>
   );
 }
-
-Box.displayName = 'Box';

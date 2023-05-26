@@ -23,5 +23,3 @@ export function MultiStep({ steps, currentStep = 1 }: MultiStepProps) {
     </div>
   );
 }
-
-MultiStep.displayName = 'MultiStep';

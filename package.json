@@ -6,16 +6,17 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint --max-warnings 0 --fix"
   },
   "dependencies": {
-    "@hiapp-ui/react": "^4.0.0",
-    "@radix-ui/react-avatar": "^1.0.2",
+    "@radix-ui/react-avatar": "^1.0.3",
+    "@radix-ui/react-checkbox": "^1.0.4",
     "@tailwindcss/forms": "^0.5.3",
     "autoprefixer": "10.4.14",
     "dayjs": "^1.11.7",
     "js-cookie": "^3.0.5",
     "jwt-decode": "^3.1.2",
+    "lucide-react": "^0.221.0",
     "next": "13.4.3",
     "postcss": "8.4.23",
     "react": "18.2.0",

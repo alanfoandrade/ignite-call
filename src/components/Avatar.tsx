@@ -1,9 +1,7 @@
-'use client';
-
 import { Root, Image, Fallback } from '@radix-ui/react-avatar';
 
-import { User } from 'phosphor-react';
 import { ComponentProps } from 'react';
+import { User } from 'lucide-react';
 
 export interface AvatarProps extends ComponentProps<typeof Image> {
   alt: string;
@@ -11,37 +9,37 @@ export interface AvatarProps extends ComponentProps<typeof Image> {
 }
 
 export function Avatar({ alt, size = 'md', ...props }: AvatarProps) {
-  let container = 'inline-block overflow-hidden rounded-full';
+  let sizeStyles = '';
 
   switch (size) {
     case 'sm':
-      container = container.concat(' w-12 h-12');
+      sizeStyles = 'w-12 h-12';
 
       break;
 
     case 'md':
-      container = container.concat(' w-16 h-16');
+      sizeStyles = 'w-16 h-16';
 
       break;
 
     case 'lg':
-      container = container.concat(' w-20 h-20');
+      sizeStyles = 'w-20 h-20';
 
       break;
 
     case 'xl':
-      container = container.concat(' w-40 h-40');
+      sizeStyles = 'w-40 h-40';
 
       break;
 
     case '2xl':
-      container = container.concat(' w-64 h-64');
+      sizeStyles = 'w-64 h-64';
 
       break;
   }
 
   return (
-    <Root className={container}>
+    <Root className={`inline-block overflow-hidden rounded-full ${sizeStyles}`}>
       <Image
         {...props}
         alt={alt}
@@ -57,5 +55,3 @@ export function Avatar({ alt, size = 'md', ...props }: AvatarProps) {
     </Root>
   );
 }
-
-Avatar.displayName = 'Avatar';
