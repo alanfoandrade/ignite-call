@@ -2,13 +2,14 @@ import { Root, Image, Fallback } from '@radix-ui/react-avatar';
 
 import { ComponentProps } from 'react';
 import { User } from 'lucide-react';
+import { twMerge } from 'tailwind-merge';
 
 export interface AvatarProps extends ComponentProps<typeof Image> {
   alt: string;
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
-export function Avatar({ alt, size = 'md', ...props }: AvatarProps) {
+export function Avatar({ alt, size = 'md', className, ...props }: AvatarProps) {
   let sizeStyles = '';
 
   switch (size) {
@@ -39,7 +40,13 @@ export function Avatar({ alt, size = 'md', ...props }: AvatarProps) {
   }
 
   return (
-    <Root className={`inline-block overflow-hidden rounded-full ${sizeStyles}`}>
+    <Root
+      className={twMerge(
+        `inline-block overflow-hidden rounded-full`,
+        sizeStyles,
+        className,
+      )}
+    >
       <Image
         {...props}
         alt={alt}

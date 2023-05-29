@@ -1,11 +1,19 @@
-interface MultiStepProps {
+import { HTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
+
+interface MultiStepProps extends HTMLAttributes<HTMLDivElement> {
   steps: number;
   currentStep?: number;
 }
 
-export function MultiStep({ steps, currentStep = 1 }: MultiStepProps) {
+export function MultiStep({
+  steps,
+  className,
+  currentStep = 1,
+  ...props
+}: MultiStepProps) {
   return (
-    <div className="w-full">
+    <div {...props} className={twMerge('w-full', className)}>
       <label className="text-gray-200">
         Passo {currentStep} de {steps}
       </label>

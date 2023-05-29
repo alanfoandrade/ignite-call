@@ -1,4 +1,5 @@
 import { ButtonHTMLAttributes } from 'react';
+import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
   variant?: 'primary' | 'secondary' | 'tertiary';
@@ -7,6 +8,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 export function Button({
   children,
+  className,
   size = 'md',
   variant = 'primary',
   ...props
@@ -48,7 +50,12 @@ export function Button({
   return (
     <button
       {...props}
-      className={`box-border flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-0 text-center text-sm font-normal duration-200 ease-in-out focus:shadow-[0_0_0_2px_gray-100] disabled:cursor-not-allowed ${sizeStyles} ${variantStyles}`}
+      className={twMerge(
+        `box-border flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-0 text-center text-sm font-normal duration-200 ease-in-out focus:shadow-[0_0_0_2px_gray-100] disabled:cursor-not-allowed`,
+        sizeStyles,
+        variantStyles,
+        className,
+      )}
     >
       {children}
     </button>
