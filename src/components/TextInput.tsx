@@ -49,11 +49,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
         />
       </div>
 
-      {!!error && (
-        <div className="absolute mt-1 px-1">
-          <Text className="text-sm text-gray-400">
-            {error.message || 'Digite um nome de usuário'}
-          </Text>
+      {!!error?.message && (
+        <div className="mt-1 px-1">
+          <Text className="text-sm text-[#f75a68]">{error.message}</Text>
         </div>
       )}
     </div>

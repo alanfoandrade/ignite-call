@@ -10,6 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Box } from '@/components/Box';
+import { useRouter } from 'next/navigation';
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -29,18 +30,20 @@ export function ClaimUsernameForm({
   className,
   ...props
 }: ClaimUsernameFormProps) {
+  const router = useRouter();
+
   const {
     register,
     handleSubmit,
-    formState: { errors },
+    formState: { errors, isSubmitting },
   } = useForm<ClaimusernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
   });
 
-  const handleClaimUsername: SubmitHandler<ClaimusernameFormData> = async (
-    data,
-  ) => {
-    console.log(data);
+  const handleClaimUsername: SubmitHandler<ClaimusernameFormData> = (data) => {
+    const { username } = data;
+
+    router.push(`/register?username=${username}`);
   };
 
   return (
@@ -63,14 +66,18 @@ export function ClaimUsernameForm({
           {...register('username')}
         />
 
-        <Button size="sm" type="submit">
-          Reservar usuário
+        <Button size="sm" type="submit" disabled={!!isSubmitting}>
+          Reservar
           <ArrowRight className="h-4 w-4" />
         </Button>
       </Box>
 
       <div className="mt-1 px-1">
-        <Text className="text-sm text-gray-400">
+        <Text
+          className={`text-sm ${
+            errors.username?.message ? 'text-[#f75a68]' : 'text-gray-400'
+          }`}
+        >
           {errors.username?.message || 'Digite um nome de usuário'}
         </Text>
       </div>
