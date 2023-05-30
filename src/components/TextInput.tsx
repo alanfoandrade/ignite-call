@@ -5,6 +5,7 @@ import {
 } from 'react';
 import { FieldError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+import { Text } from './Text';
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
   prefix?: string;
@@ -50,9 +51,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
 
       {!!error && (
         <div className="absolute mt-1 px-1">
-          <p className="text-sm text-gray-400">
+          <Text className="text-sm text-gray-400">
             {error.message || 'Digite um nome de usuário'}
-          </p>
+          </Text>
         </div>
       )}
     </div>

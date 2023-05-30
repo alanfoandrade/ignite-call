@@ -2,20 +2,22 @@ import Image from 'next/image';
 
 import previewImg from '../../assets/app-preview.png';
 import { ClaimUsernameForm } from './components/ClaimUsernameForm';
+import { Heading } from '@/components/Heading';
+import { Text } from '@/components/Text';
 
 export default function Home() {
   return (
     <main className="flex h-screen w-full items-center">
       <div className="ml-auto flex max-w-[calc(100vw_-_((100vw_-_1180px)_/_2))] items-center gap-24 max-lg:ml-0">
         <section className="max-w-lg px-10">
-          <h2 className="text-7xl font-bold max-lg:text-6xl">
+          <Heading as="h1" className="text-7xl max-lg:text-6xl">
             Agendamento descomplicado
-          </h2>
+          </Heading>
 
-          <p className="mt-2 text-xl text-gray-200">
+          <Text className="mt-2 text-lg text-gray-200 max-lg:text-base">
             Conecte seu calendário e permita que as pessoas marquem agendamentos
             no seu tempo livre.
-          </p>
+          </Text>
 
           <ClaimUsernameForm />
         </section>

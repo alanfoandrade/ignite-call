@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/Button';
+import { Text } from '../../../components/Text';
 import { TextInput } from '@/components/TextInput';
 import { ArrowRight } from 'lucide-react';
 import { FormHTMLAttributes } from 'react';
@@ -68,10 +69,10 @@ export function ClaimUsernameForm({
         </Button>
       </Box>
 
-      <div className="absolute mt-1 px-1">
-        <p className="text-sm text-gray-400">
+      <div className="mt-1 px-1">
+        <Text className="text-sm text-gray-400">
           {errors.username?.message || 'Digite um nome de usuário'}
-        </p>
+        </Text>
       </div>
     </>
   );
