@@ -8,6 +8,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
 import { zodResolver } from '@hookform/resolvers/zod';
+import { Box } from '@/components/Box';
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -43,10 +44,11 @@ export function ClaimUsernameForm({
 
   return (
     <>
-      <form
+      <Box
         {...props}
+        as="form"
         className={twMerge(
-          'border-1 mt-4 grid grid-cols-[1fr_auto] gap-2 rounded-lg border-gray-600 bg-gray-800 p-4 max-lg:grid-cols-1',
+          'mt-4 grid grid-cols-[1fr_auto] gap-2 p-4 max-lg:grid-cols-1',
           className,
         )}
         onSubmit={handleSubmit(handleClaimUsername)}
@@ -64,7 +66,7 @@ export function ClaimUsernameForm({
           Reservar usuário
           <ArrowRight className="h-4 w-4" />
         </Button>
-      </form>
+      </Box>
 
       <div className="absolute mt-1 px-1">
         <p className="text-sm text-gray-400">
