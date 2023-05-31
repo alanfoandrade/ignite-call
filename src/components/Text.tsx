@@ -13,11 +13,11 @@ export function Text({
 }: TextProps) {
   return (
     <Component
-      {...props}
       className={twMerge(
         'font-sans text-base leading-relaxed text-gray-100',
         className,
       )}
+      {...props}
     >
       {children}
     </Component>

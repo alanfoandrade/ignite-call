@@ -47,9 +47,9 @@ export function Avatar({ alt, className, size = 'md', ...props }: AvatarProps) {
       )}
     >
       <Image
-        {...props}
         alt={alt}
         className="h-full w-full rounded-full object-cover"
+        {...props}
       />
 
       <Fallback

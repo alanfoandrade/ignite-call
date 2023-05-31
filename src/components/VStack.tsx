@@ -12,7 +12,7 @@ export function VStack({
   ...props
 }: VStackProps) {
   return (
-    <Component {...props} className={twMerge('flex flex-col gap-2', className)}>
+    <Component className={twMerge('flex flex-col gap-2', className)} {...props}>
       {children}
     </Component>
   );

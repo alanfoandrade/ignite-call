@@ -13,7 +13,7 @@ export function MultiStep({
   ...props
 }: MultiStepProps) {
   return (
-    <div {...props} className={twMerge('w-full', className)}>
+    <div className={twMerge('w-full', className)} {...props}>
       <label className="text-gray-200">
         Passo {currentStep} de {steps}
       </label>

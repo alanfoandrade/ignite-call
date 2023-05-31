@@ -33,7 +33,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
   }
 
   return (
-    <div>
+    <>
       <div
         className={twMerge(
           `box-border flex items-center rounded-md border-2 border-gray-900 bg-gray-900 group-focus:border-green-300 group-disabled:cursor-not-allowed group-disabled:opacity-50`,
@@ -44,9 +44,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
         {!!prefix && <span className="text-sm text-gray-400">{prefix}</span>}
 
         <input
-          {...props}
           className="group w-full border-0 bg-transparent text-sm placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed"
           ref={ref}
+          {...props}
         />
       </div>
 
@@ -55,7 +55,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
           <Text className="text-sm text-[#f75a68]">{error.message}</Text>
         </div>
       )}
-    </div>
+    </>
   );
 };
 

@@ -50,13 +50,13 @@ export function Button({
 
   return (
     <button
-      {...props}
       className={twMerge(
         `box-border flex min-w-[120px] cursor-pointer items-center justify-center gap-2 rounded-md px-4 py-0 text-center text-sm font-normal duration-200 ease-in-out focus:shadow-[0_0_0_2px_gray-100] disabled:cursor-not-allowed`,
         sizeStyles,
         variantStyles,
         className,
       )}
+      {...props}
     >
       {children}
     </button>

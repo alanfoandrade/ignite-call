@@ -13,11 +13,11 @@ export function Box({
 }: BoxProps) {
   return (
     <Component
-      {...props}
       className={twMerge(
         'border-1 rounded-lg border-gray-600 bg-gray-800 p-6',
         className,
       )}
+      {...props}
     >
       {children}
     </Component>

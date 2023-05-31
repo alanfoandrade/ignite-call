@@ -13,11 +13,11 @@ export function Heading({
 }: HeadingProps) {
   return (
     <Component
-      {...props}
       className={twMerge(
         'font-sans text-2xl font-bold leading-tight text-gray-100',
         className,
       )}
+      {...props}
     >
       {children}
     </Component>

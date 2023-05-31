@@ -12,7 +12,7 @@ export function Flex({
   ...props
 }: FlexProps) {
   return (
-    <Component {...props} className={twMerge('flex w-full', className)}>
+    <Component className={twMerge('flex w-full', className)} {...props}>
       {children}
     </Component>
   );
