@@ -38,15 +38,16 @@ interface RegisterProps {
 
 export default function Register({ searchParams }: RegisterProps) {
   const {
-    register,
-    handleSubmit,
     formState: { errors, isSubmitting },
+    handleSubmit,
+    register,
     setValue,
   } = useForm<RegisterFormData>({
     resolver: zodResolver(registerFormSchema),
   });
 
   async function handleRegister(data: RegisterFormData) {
+    // eslint-disable-next-line no-console
     console.log(data);
   }
 

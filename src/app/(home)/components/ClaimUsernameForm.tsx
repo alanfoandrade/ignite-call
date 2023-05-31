@@ -1,16 +1,17 @@
 'use client';
 
+import { Box } from '@/components/Box';
 import { Button } from '@/components/Button';
-import { Text } from '../../../components/Text';
 import { TextInput } from '@/components/TextInput';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { FormHTMLAttributes } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
 import { z } from 'zod';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { Box } from '@/components/Box';
-import { useRouter } from 'next/navigation';
+
+import { Text } from '../../../components/Text';
 
 const claimUsernameFormSchema = z.object({
   username: z
@@ -24,7 +25,7 @@ const claimUsernameFormSchema = z.object({
 
 type ClaimusernameFormData = z.infer<typeof claimUsernameFormSchema>;
 
-interface ClaimUsernameFormProps extends FormHTMLAttributes<HTMLFormElement> {}
+type ClaimUsernameFormProps = FormHTMLAttributes<HTMLFormElement>;
 
 export function ClaimUsernameForm({
   className,
@@ -33,9 +34,9 @@ export function ClaimUsernameForm({
   const router = useRouter();
 
   const {
-    register,
-    handleSubmit,
     formState: { errors, isSubmitting },
+    handleSubmit,
+    register,
   } = useForm<ClaimusernameFormData>({
     resolver: zodResolver(claimUsernameFormSchema),
   });

@@ -1,11 +1,11 @@
 import { Root, Indicator } from '@radix-ui/react-checkbox';
-import { ComponentProps } from 'react';
 import { Check } from 'lucide-react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export type CheckboxProps = ComponentProps<typeof Root>;
 
-export function Checkbox({ onClick, className, ...props }: CheckboxProps) {
+export function Checkbox({ className, ...props }: CheckboxProps) {
   return (
     <Root
       {...props}

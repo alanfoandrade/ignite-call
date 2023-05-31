@@ -1,16 +1,17 @@
 {
   "env": {
     "browser": true,
-    "es2021": true,
-    "jest": true
+    "es2021": true
   },
   "extends": [
-    "next/core-web-vitals",
-    "standard",
     "plugin:react/recommended",
     "plugin:react-hooks/recommended",
-    "prettier",
-    "plugin:prettier/recommended"
+    "standard",
+    "plugin:prettier/recommended",
+    "plugin:react/recommended",
+    "plugin:react/jsx-runtime",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:@next/next/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -23,9 +24,74 @@
   "plugins": [
     "react",
     "jsx-a11y",
-    "@typescript-eslint"
+    "@typescript-eslint",
+    "react-hooks",
+    "prettier",
+    "eslint-plugin-import-helpers",
+    "sort-destructure-keys"
   ],
   "rules": {
+    "camelcase": "off",
+    "no-useless-constructor": "off",
+    "react-hooks/rules-of-hooks": "error",
+    "react-hooks/exhaustive-deps": "warn",
+    "react/jsx-uses-react": "error",
+    "react/jsx-uses-vars": "error",
+    "no-console": "warn",
+    "sort-destructure-keys/sort-destructure-keys": [
+      2,
+      {
+        "caseSensitive": false
+      }
+    ],
+    "sort-keys": [
+      "error",
+      "asc",
+      {
+        "natural": true
+      }
+    ],
+    "import-helpers/order-imports": [
+      "warn",
+      {
+        "newlinesBetween": "always",
+        "groups": [
+          "module",
+          "/^@shared/",
+          [
+            "parent",
+            "sibling",
+            "index"
+          ]
+        ],
+        "alphabetize": {
+          "order": "asc",
+          "ignoreCase": true
+        }
+      }
+    ],
+    "@typescript-eslint/member-ordering": [
+      "error",
+      {
+        "classes": {
+          "memberTypes": [
+            "field",
+            "constructor"
+          ],
+          "order": "alphabetically-case-insensitive"
+        },
+        "default": {
+          "memberTypes": "never",
+          "order": "alphabetically-case-insensitive"
+        }
+      }
+    ],
+    "@typescript-eslint/no-unused-vars": [
+      "warn",
+      {
+        "argsIgnorePattern": "_"
+      }
+    ],
     "prettier/prettier": [
       "error",
       {
@@ -67,6 +133,9 @@
         ".tsx",
         ".d.ts"
       ]
+    },
+    "import/resolver": {
+      "typescript": {}
     }
   }
 }

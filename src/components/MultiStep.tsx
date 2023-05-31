@@ -2,14 +2,14 @@ import { HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface MultiStepProps extends HTMLAttributes<HTMLDivElement> {
-  steps: number;
   currentStep?: number;
+  steps: number;
 }
 
 export function MultiStep({
-  steps,
   className,
   currentStep = 1,
+  steps,
   ...props
 }: MultiStepProps) {
   return (

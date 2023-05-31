@@ -1,7 +1,6 @@
 import { Root, Image, Fallback } from '@radix-ui/react-avatar';
-
-import { ComponentProps } from 'react';
 import { User } from 'lucide-react';
+import { ComponentProps } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 export interface AvatarProps extends ComponentProps<typeof Image> {
@@ -9,7 +8,7 @@ export interface AvatarProps extends ComponentProps<typeof Image> {
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
-export function Avatar({ alt, size = 'md', className, ...props }: AvatarProps) {
+export function Avatar({ alt, className, size = 'md', ...props }: AvatarProps) {
   let sizeStyles = '';
 
   switch (size) {

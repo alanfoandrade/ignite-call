@@ -1,9 +1,9 @@
-import { ReactNode } from 'react';
-import '../styles/globals.css';
 import {
   Roboto_Flex as Roboto,
   Bai_Jamjuree as BaiJamjuree,
 } from 'next/font/google';
+import { ReactNode } from 'react';
+import '../styles/globals.css';
 
 const roboto = Roboto({
   subsets: ['latin'],
@@ -11,14 +11,14 @@ const roboto = Roboto({
 });
 
 const baiJamjuree = BaiJamjuree({
-  weight: '700',
   subsets: ['latin'],
   variable: '--font-bai-jamjuree',
+  weight: '700',
 });
 
 export const metadata = {
-  title: 'Ignite Call',
   description: 'App Ignite Call',
+  title: 'Ignite Call',
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {

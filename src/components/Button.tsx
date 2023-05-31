@@ -2,8 +2,8 @@ import { ButtonHTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
-  variant?: 'primary' | 'secondary' | 'tertiary';
   size?: 'sm' | 'md';
+  variant?: 'primary' | 'secondary' | 'tertiary';
 }
 
 export function Button({
@@ -47,6 +47,7 @@ export function Button({
 
       break;
   }
+
   return (
     <button
       {...props}

@@ -1,14 +1,15 @@
+import { Heading } from '@/components/Heading';
+import { HStack } from '@/components/HStack';
+import { Text } from '@/components/Text';
 import Image from 'next/image';
 
 import previewImg from '../../assets/app-preview.png';
 import { ClaimUsernameForm } from './components/ClaimUsernameForm';
-import { Heading } from '@/components/Heading';
-import { Text } from '@/components/Text';
 
 export default function Home() {
   return (
     <main className="flex h-screen w-full items-center">
-      <div className="ml-auto flex max-w-[calc(100vw_-_((100vw_-_1180px)_/_2))] items-center gap-24 max-lg:ml-0">
+      <HStack className="ml-auto max-w-[calc(100vw_-_((100vw_-_1180px)_/_2))] gap-24 max-lg:ml-0">
         <section className="max-w-lg px-10">
           <Heading as="h1" className="text-7xl max-lg:text-6xl">
             Agendamento descomplicado
@@ -32,7 +33,7 @@ export default function Home() {
             priority
           />
         </section>
-      </div>
+      </HStack>
     </main>
   );
 }

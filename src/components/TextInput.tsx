@@ -5,16 +5,17 @@ import {
 } from 'react';
 import { FieldError } from 'react-hook-form';
 import { twMerge } from 'tailwind-merge';
+
 import { Text } from './Text';
 
 interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
+  error?: FieldError;
   prefix?: string;
   variant?: 'sm' | 'md';
-  error?: FieldError;
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
-  { prefix, variant = 'md', className, error = null, ...props },
+  { className, error = null, prefix, variant = 'md', ...props },
   ref,
 ) => {
   let variantStyles = '';
