@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
-export async function GET(request: Request) {
+export async function POST(request: Request) {
   // eslint-disable-next-line no-console
   console.log(request);
-  return NextResponse.json({ ok: true }, { status: 200 });
+  return NextResponse.json(request.body, { status: 200 });
 }

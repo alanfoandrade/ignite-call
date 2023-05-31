@@ -32,7 +32,8 @@ type RegisterFormData = z.infer<typeof registerFormSchema>;
 
 interface RegisterProps {
   searchParams: {
-    username?: string | string[];
+    name: string;
+    username: string | string[];
   };
 }
 
@@ -46,16 +47,29 @@ export default function Register({ searchParams }: RegisterProps) {
     resolver: zodResolver(registerFormSchema),
   });
 
-  async function handleRegister(data: RegisterFormData) {
-    // eslint-disable-next-line no-console
-    console.log(data);
-  }
-
   useEffect(() => {
     if (searchParams.username) {
       setValue('username', String(searchParams.username));
     }
   }, [searchParams.username, setValue]);
+
+  async function handleRegister(data: RegisterFormData) {
+    try {
+      await fetch('/api/users', {
+        body: JSON.stringify({
+          name: data.name,
+          username: data.username,
+        }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log(err);
+    }
+  }
 
   return (
     <main className="mx-auto mb-4 mt-20 max-w-xl px-4">
