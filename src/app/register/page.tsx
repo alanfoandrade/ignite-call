@@ -1,13 +1,14 @@
 'use client';
 
-import { Box } from '@/components/Box';
 import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
 import { Heading } from '@/components/Heading';
 import { MultiStep } from '@/components/MultiStep';
 import { Text } from '@/components/Text';
 import { TextInput } from '@/components/TextInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -38,6 +39,8 @@ interface RegisterProps {
 }
 
 export default function Register({ searchParams }: RegisterProps) {
+  const router = useRouter();
+
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -55,7 +58,7 @@ export default function Register({ searchParams }: RegisterProps) {
 
   async function handleRegister(data: RegisterFormData) {
     try {
-      await fetch('/api/users', {
+      const response = await fetch('/api/users', {
         body: JSON.stringify({
           name: data.name,
           username: data.username,
@@ -65,10 +68,18 @@ export default function Register({ searchParams }: RegisterProps) {
         },
         method: 'POST',
       });
+
+      if (!response.ok) {
+        const resp = await response.json();
+
+        throw new Error(resp.message);
+      }
+
+      router.push('/register/connect-calendar');
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
     } catch (err: any) {
-      if (err?.response?.data?.message) {
-        alert(err.response.data.message);
+      if (err?.message) {
+        alert(err.message);
 
         return;
       }
@@ -93,7 +104,7 @@ export default function Register({ searchParams }: RegisterProps) {
         <MultiStep steps={4} currentStep={1} />
       </div>
 
-      <Box
+      <Card
         as="form"
         className="mt-6 flex flex-col gap-4"
         onSubmit={handleSubmit(handleRegister)}
@@ -122,7 +133,7 @@ export default function Register({ searchParams }: RegisterProps) {
         <Button type="submit" disabled={!!isSubmitting}>
           Próximo passo <ArrowRight className="h-4 w-4" />
         </Button>
-      </Box>
+      </Card>
     </main>
   );
 }

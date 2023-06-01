@@ -5,25 +5,12 @@ module.exports = {
     './src/components/**/*.{js,ts,jsx,tsx,mdx}',
     './src/app/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  plugins: [require('@tailwindcss/forms')],
   theme: {
     extend: {
       animation: {
         slideIn: 'slideIn 200ms ease-out',
         slideOut: 'slideOut 200ms ease-out',
-      },
-      keyframes: {
-        slideIn: {
-          '0%': { transform: 'translateY(-100%)' },
-          '100%': { transform: 'translateY(0)' },
-        },
-        slideOut: {
-          '0%': { transform: 'translateY(0)' },
-          '100%': { transform: 'translateY(-100%)' },
-        },
-      },
-      fontFamily: {
-        sans: 'var(--font-roboto)',
-        alt: 'var(--font-bai-jamjuree)',
       },
       borderRadius: {
         px: '1px',
@@ -46,7 +33,20 @@ module.exports = {
           900: '#00291D',
         },
       },
+      fontFamily: {
+        alt: 'var(--font-bai-jamjuree)',
+        sans: 'var(--font-roboto)',
+      },
+      keyframes: {
+        slideIn: {
+          '0%': { transform: 'translateY(-100%)' },
+          '100%': { transform: 'translateY(0)' },
+        },
+        slideOut: {
+          '0%': { transform: 'translateY(0)' },
+          '100%': { transform: 'translateY(-100%)' },
+        },
+      },
     },
   },
-  plugins: [require('@tailwindcss/forms')],
 };

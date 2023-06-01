@@ -1,7 +1,7 @@
 'use client';
 
-import { Box } from '@/components/Box';
 import { Button } from '@/components/Button';
+import { Card } from '@/components/Card';
 import { TextInput } from '@/components/TextInput';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
@@ -49,7 +49,7 @@ export function ClaimUsernameForm({
 
   return (
     <>
-      <Box
+      <Card
         {...props}
         as="form"
         className={twMerge(
@@ -71,7 +71,7 @@ export function ClaimUsernameForm({
           Reservar
           <ArrowRight className="h-4 w-4" />
         </Button>
-      </Box>
+      </Card>
 
       <div className="mt-1 px-1">
         <Text

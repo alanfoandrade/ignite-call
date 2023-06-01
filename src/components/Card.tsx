@@ -1,16 +1,16 @@
 import { ElementType, HTMLAttributes } from 'react';
 import { twMerge } from 'tailwind-merge';
 
-interface BoxProps extends HTMLAttributes<HTMLElement> {
+interface CardProps extends HTMLAttributes<HTMLElement> {
   as?: ElementType;
 }
 
-export function Box({
+export function Card({
   as: Component = 'div',
   children,
   className,
   ...props
-}: BoxProps) {
+}: CardProps) {
   return (
     <Component
       className={twMerge(
