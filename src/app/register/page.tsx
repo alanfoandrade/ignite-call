@@ -16,7 +16,7 @@ const registerFormSchema = z.object({
   name: z
     .string()
     .min(3, { message: 'Mínimo 3 letras' })
-    .regex(/^([a-z]+)$/i, {
+    .regex(/^([a-z ]+)$/i, {
       message: 'Apenas letras',
     }),
   username: z
@@ -65,7 +65,14 @@ export default function Register({ searchParams }: RegisterProps) {
         },
         method: 'POST',
       });
-    } catch (err) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    } catch (err: any) {
+      if (err?.response?.data?.message) {
+        alert(err.response.data.message);
+
+        return;
+      }
+
       // eslint-disable-next-line no-console
       console.log(err);
     }
