@@ -24,7 +24,7 @@ export default function ConnectCalendar({
   const isSignedIn = status === 'authenticated';
 
   function handleConnectCalendar() {
-    signIn('google');
+    signIn('google', { callbackUrl: '/register/connect-calendar' });
   }
 
   return (
@@ -49,7 +49,7 @@ export default function ConnectCalendar({
           {isSignedIn && !hasAuthError ? (
             <Button disabled variant="secondary" size="sm">
               Conectado
-              <Check />
+              <Check className="h-4 w-4" />
             </Button>
           ) : (
             <Button
