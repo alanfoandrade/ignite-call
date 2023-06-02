@@ -6,6 +6,13 @@ import { PrismaAdapter } from './auth/prisma-adapter';
 export const authOptions: NextAuthOptions = {
   adapter: PrismaAdapter(),
   callbacks: {
+    async session({ session, user }) {
+      return {
+        ...session,
+        user,
+      };
+    },
+
     async signIn({ account }) {
       if (
         !account?.scope?.includes('https://www.googleapis.com/auth/calendar')
