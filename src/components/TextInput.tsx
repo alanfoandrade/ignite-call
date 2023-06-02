@@ -52,7 +52,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
 
       {!!error?.message && (
         <div className="mt-1 px-1">
-          <Text className="text-sm text-[#f75a68]">{error.message}</Text>
+          <Text className="text-sm text-error">{error.message}</Text>
         </div>
       )}
     </>

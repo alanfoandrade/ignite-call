@@ -16,6 +16,7 @@ module.exports = {
         px: '1px',
       },
       colors: {
+        error: '#f75a68',
         gray: {
           100: '#E1E1E6',
           200: '#A9A9B2',

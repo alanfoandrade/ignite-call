@@ -76,7 +76,7 @@ export function ClaimUsernameForm({
       <div className="mt-1 px-1">
         <Text
           className={`text-sm ${
-            errors.username?.message ? 'text-[#f75a68]' : 'text-gray-400'
+            errors.username?.message ? 'text-error' : 'text-gray-400'
           }`}
         >
           {errors.username?.message || 'Digite um nome de usuário'}

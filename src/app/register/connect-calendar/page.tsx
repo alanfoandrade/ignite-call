@@ -5,11 +5,27 @@ import { Card } from '@/components/Card';
 import { Heading } from '@/components/Heading';
 import { MultiStep } from '@/components/MultiStep';
 import { Text } from '@/components/Text';
-import { ArrowRight } from 'lucide-react';
+import { ArrowRight, Check } from 'lucide-react';
 import { signIn, useSession } from 'next-auth/react';
 
-export default function ConnectCalendar() {
-  const { data } = useSession();
+interface ConnectCalendarProps {
+  searchParams: {
+    error?: string;
+  };
+}
+
+export default function ConnectCalendar({
+  searchParams,
+}: ConnectCalendarProps) {
+  const { status } = useSession();
+
+  const hasAuthError = searchParams.error === 'permissions';
+
+  const isSignedIn = status === 'authenticated';
+
+  function handleConnectCalendar() {
+    signIn('google');
+  }
 
   return (
     <main className="mx-auto mb-4 mt-20 max-w-xl px-4">
@@ -27,26 +43,34 @@ export default function ConnectCalendar() {
       </div>
 
       <Card className="mt-6 flex flex-col">
-        <div className="mb-2 flex items-center justify-between rounded-lg border border-gray-600 px-6 py-4">
-          {!data?.user ? (
-            <>
-              <Text>Google Calendar</Text>
+        <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-600 px-6 py-4">
+          <Text>Google Calendar</Text>
 
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={() => signIn('google')}
-              >
-                Conectar
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-            </>
+          {isSignedIn && !hasAuthError ? (
+            <Button disabled variant="secondary" size="sm">
+              Conectado
+              <Check />
+            </Button>
           ) : (
-            <Text>Bem vindo {data.user.name}</Text>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleConnectCalendar}
+            >
+              Conectar
+              <ArrowRight className="h-4 w-4" />
+            </Button>
           )}
         </div>
 
-        <Button type="submit">
+        {!!hasAuthError && (
+          <Text className="mb-4 text-sm text-error">
+            Falha ao se conectar ao Google, verifique se você habilitou as
+            permissões de acesso ao Google Calendar
+          </Text>
+        )}
+
+        <Button type="submit" disabled={!isSignedIn || hasAuthError}>
           Próximo passo <ArrowRight className="h-4 w-4" />
         </Button>
       </Card>
