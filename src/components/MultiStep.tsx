@@ -1,5 +1,4 @@
 import { HTMLAttributes } from 'react';
-import { twMerge } from 'tailwind-merge';
 
 interface MultiStepProps extends HTMLAttributes<HTMLDivElement> {
   currentStep?: number;
@@ -13,7 +12,7 @@ export function MultiStep({
   ...props
 }: MultiStepProps) {
   return (
-    <div className={twMerge('w-full', className)} {...props}>
+    <div className={className} {...props}>
       <label className="text-gray-200">
         Passo {currentStep} de {steps}
       </label>

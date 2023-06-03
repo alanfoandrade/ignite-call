@@ -13,7 +13,7 @@ export function HStack({
 }: HStackProps) {
   return (
     <Component
-      className={twMerge('flex w-full items-center gap-2', className)}
+      className={twMerge('flex items-center gap-2', className)}
       {...props}
     >
       {children}

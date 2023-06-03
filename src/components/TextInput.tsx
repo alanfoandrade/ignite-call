@@ -44,7 +44,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
         {!!prefix && <span className="text-sm text-gray-400">{prefix}</span>}
 
         <input
-          className="group w-full border-0 bg-transparent text-sm placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed"
+          className="group border-0 bg-transparent p-0 text-sm placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed"
           ref={ref}
           {...props}
         />
