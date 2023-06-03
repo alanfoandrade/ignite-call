@@ -15,7 +15,7 @@ interface TextInputProps extends InputHTMLAttributes<HTMLInputElement> {
 }
 
 const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
-  { className, error = null, prefix, variant = 'md', ...props },
+  { className, disabled, error = null, prefix, variant = 'md', ...props },
   ref,
 ) => {
   let variantStyles = '';
@@ -32,11 +32,14 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
       break;
   }
 
+  const disabledStyles = 'cursor-not-allowed opacity-50';
+
   return (
     <>
       <div
         className={twMerge(
-          `box-border flex items-center rounded-md border-2 border-gray-900 bg-gray-900 group-focus:border-green-300 group-disabled:cursor-not-allowed group-disabled:opacity-50`,
+          `box-border flex items-center rounded-md border-2 border-gray-900 bg-gray-900 focus:border-green-300`,
+          disabled ? disabledStyles : undefined,
           variantStyles,
           className,
         )}
@@ -44,8 +47,9 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
         {!!prefix && <span className="text-sm text-gray-400">{prefix}</span>}
 
         <input
-          className="group border-0 bg-transparent p-0 text-sm placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed"
+          className="w-full border-0 bg-transparent p-0 text-sm placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed"
           ref={ref}
+          disabled={disabled}
           {...props}
         />
       </div>
