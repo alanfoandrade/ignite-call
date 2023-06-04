@@ -1,7 +1,6 @@
 'use client';
 
 import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
 import { Checkbox } from '@/components/Checkbox';
 import { Flex } from '@/components/Flex';
 import { Heading } from '@/components/Heading';
@@ -13,8 +12,13 @@ import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minut
 import { getWeekDays } from '@/utils/get-week-days';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
+
+import { Container } from '../components/Container';
+import { Content } from '../components/Content';
+import { Header } from '../components/Header';
 
 const timeIntervalsFormSchema = z.object({
   intervals: z
@@ -55,6 +59,8 @@ type TimeIntervalsFormInput = z.input<typeof timeIntervalsFormSchema>;
 type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>;
 
 export default function TimeIntervals() {
+  const router = useRouter();
+
   const {
     control,
     formState: { errors, isSubmitting },
@@ -103,6 +109,8 @@ export default function TimeIntervals() {
 
         throw new Error(resp.message);
       }
+
+      router.push('/register/update-profile');
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log({ err });
@@ -110,8 +118,8 @@ export default function TimeIntervals() {
   }
 
   return (
-    <main className="mx-auto mb-4 mt-20 max-w-xl px-4">
-      <div className="px-6">
+    <Container as="main">
+      <Header>
         <Heading as="strong" className="leading-relaxed">
           Quase lá
         </Heading>
@@ -122,13 +130,9 @@ export default function TimeIntervals() {
         </Text>
 
         <MultiStep steps={4} currentStep={3} />
-      </div>
+      </Header>
 
-      <Card
-        as="form"
-        className="mt-6 flex flex-col"
-        onSubmit={handleSubmit(handleSetTimeIntervals)}
-      >
+      <Content as="form" onSubmit={handleSubmit(handleSetTimeIntervals)}>
         <div className="mb-2 rounded-lg border border-gray-600 [&>*:nth-child(n+2)]:border-t [&>*:nth-child(n+2)]:border-t-gray-600">
           {fields.map((field, index) => (
             <Flex
@@ -184,7 +188,7 @@ export default function TimeIntervals() {
         <Button type="submit" disabled={isSubmitting}>
           Próximo passo <ArrowRight className="h-4 w-4" />
         </Button>
-      </Card>
-    </main>
+      </Content>
+    </Container>
   );
 }

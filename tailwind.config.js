@@ -35,8 +35,8 @@ module.exports = {
         },
       },
       fontFamily: {
-        alt: 'var(--font-bai-jamjuree)',
-        sans: 'var(--font-roboto)',
+        alt: 'var(--font-bai-jamjuree), sans-serif',
+        sans: 'var(--font-roboto), sans-serif',
       },
       keyframes: {
         slideIn: {

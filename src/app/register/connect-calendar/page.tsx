@@ -1,12 +1,16 @@
 'use client';
 
 import { Button } from '@/components/Button';
-import { Card } from '@/components/Card';
 import { Heading } from '@/components/Heading';
 import { MultiStep } from '@/components/MultiStep';
 import { Text } from '@/components/Text';
 import { ArrowRight, Check } from 'lucide-react';
 import { signIn, useSession } from 'next-auth/react';
+import { useRouter } from 'next/navigation';
+
+import { Container } from '../components/Container';
+import { Content } from '../components/Content';
+import { Header } from '../components/Header';
 
 interface ConnectCalendarProps {
   searchParams: {
@@ -17,6 +21,8 @@ interface ConnectCalendarProps {
 export default function ConnectCalendar({
   searchParams,
 }: ConnectCalendarProps) {
+  const router = useRouter();
+
   const { status } = useSession();
 
   const hasAuthError = searchParams.error === 'permissions';
@@ -27,9 +33,13 @@ export default function ConnectCalendar({
     signIn('google', { callbackUrl: '/register/connect-calendar' });
   }
 
+  function handleNavigateToNextStep() {
+    router.push('/register/time-intervals');
+  }
+
   return (
-    <main className="mx-auto mb-4 mt-20 max-w-xl px-4">
-      <div className="px-6">
+    <Container as="main">
+      <Header>
         <Heading as="strong" className="leading-relaxed">
           Conecte sua agenda!
         </Heading>
@@ -40,9 +50,9 @@ export default function ConnectCalendar({
         </Text>
 
         <MultiStep steps={4} currentStep={2} />
-      </div>
+      </Header>
 
-      <Card className="mt-6 flex flex-col">
+      <Content>
         <div className="mb-4 flex items-center justify-between rounded-lg border border-gray-600 px-6 py-4">
           <Text>Google Calendar</Text>
 
@@ -70,10 +80,14 @@ export default function ConnectCalendar({
           </Text>
         )}
 
-        <Button type="submit" disabled={!isSignedIn || hasAuthError}>
+        <Button
+          type="button"
+          onClick={handleNavigateToNextStep}
+          disabled={!isSignedIn || hasAuthError}
+        >
           Próximo passo <ArrowRight className="h-4 w-4" />
         </Button>
-      </Card>
-    </main>
+      </Content>
+    </Container>
   );
 }

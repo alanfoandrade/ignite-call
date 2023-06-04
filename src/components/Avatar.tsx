@@ -1,3 +1,5 @@
+'use client';
+
 import { Root, Image, Fallback } from '@radix-ui/react-avatar';
 import { User } from 'lucide-react';
 import { ComponentProps } from 'react';
