@@ -32,14 +32,16 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
       break;
   }
 
-  const disabledStyles = 'cursor-not-allowed opacity-50';
+  const disabledStyles = disabled
+    ? 'disabled cursor-not-allowed opacity-50'
+    : '';
 
   return (
     <>
       <div
         className={twMerge(
-          `box-border flex items-center rounded-md border-2 border-gray-900 bg-gray-900 focus:border-green-300`,
-          disabled ? disabledStyles : undefined,
+          `group box-border flex items-center rounded-md border-2 border-gray-900 bg-gray-900 focus-within:border-green-300`,
+          disabledStyles,
           variantStyles,
           className,
         )}
@@ -47,7 +49,7 @@ const InputBase: ForwardRefRenderFunction<HTMLInputElement, TextInputProps> = (
         {!!prefix && <span className="text-sm text-gray-400">{prefix}</span>}
 
         <input
-          className="w-full border-0 bg-transparent p-0 text-sm placeholder:text-gray-400 focus:outline-none disabled:cursor-not-allowed"
+          className="group w-full border-0 bg-transparent p-0 text-sm placeholder:text-gray-400 focus:outline-0 focus:ring-0 group-[.disabled]:cursor-not-allowed [&::-webkit-calendar-picker-indicator]:opacity-50 [&::-webkit-calendar-picker-indicator]:invert "
           ref={ref}
           disabled={disabled}
           {...props}
