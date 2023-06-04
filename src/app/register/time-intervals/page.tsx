@@ -9,14 +9,50 @@ import { HStack } from '@/components/HStack';
 import { MultiStep } from '@/components/MultiStep';
 import { Text } from '@/components/Text';
 import { TextInput } from '@/components/TextInput';
+import { convertTimeStringToMinutes } from '@/utils/convert-time-string-to-minutes';
 import { getWeekDays } from '@/utils/get-week-days';
+import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
 import { Controller, useFieldArray, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 const timeIntervalsFormSchema = z.object({
-  // TODO
+  intervals: z
+    .array(
+      z.object({
+        enabled: z.boolean(),
+        endTime: z.string(),
+        startTime: z.string(),
+        weekDay: z.number().int().min(0).max(6),
+      }),
+    )
+    .length(7)
+    .transform((intervals) => intervals.filter((interval) => interval.enabled))
+    .refine((intervals) => !!intervals.length, {
+      message: 'Você precisa selecionar pelo menos um dia da semana!',
+    })
+    .transform((intervals) =>
+      intervals.map((interval) => ({
+        endTimeInMinutes: convertTimeStringToMinutes(interval.endTime),
+        startTimeInMinutes: convertTimeStringToMinutes(interval.startTime),
+        weekDay: interval.weekDay,
+      })),
+    )
+    .refine(
+      (intervals) =>
+        intervals.every(
+          (interval) =>
+            interval.endTimeInMinutes - 60 >= interval.startTimeInMinutes,
+        ),
+      {
+        message:
+          'O horário de término deve ser pelo menos 1h distante do início.',
+      },
+    ),
 });
+
+type TimeIntervalsFormInput = z.input<typeof timeIntervalsFormSchema>;
+type TimeIntervalsFormOutput = z.output<typeof timeIntervalsFormSchema>;
 
 export default function TimeIntervals() {
   const {
@@ -25,7 +61,8 @@ export default function TimeIntervals() {
     handleSubmit,
     register,
     watch,
-  } = useForm({
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } = useForm<TimeIntervalsFormInput, any, TimeIntervalsFormOutput>({
     defaultValues: {
       intervals: [
         { enabled: false, endTime: '18:00', startTime: '08:00', weekDay: 0 },
@@ -37,6 +74,7 @@ export default function TimeIntervals() {
         { enabled: false, endTime: '18:00', startTime: '08:00', weekDay: 6 },
       ],
     },
+    resolver: zodResolver(timeIntervalsFormSchema),
   });
 
   const weekDays = getWeekDays();
@@ -48,8 +86,27 @@ export default function TimeIntervals() {
 
   const intervals = watch('intervals');
 
-  async function handleSetTimeIntervals() {
-    // TODO
+  async function handleSetTimeIntervals({
+    intervals,
+  }: TimeIntervalsFormOutput) {
+    try {
+      const response = await fetch('/api/users/time-intervals', {
+        body: JSON.stringify({ intervals }),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        method: 'POST',
+      });
+
+      if (!response.ok) {
+        const resp = await response.json();
+
+        throw new Error(resp.message);
+      }
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.log({ err });
+    }
   }
 
   return (
@@ -72,7 +129,7 @@ export default function TimeIntervals() {
         className="mt-6 flex flex-col"
         onSubmit={handleSubmit(handleSetTimeIntervals)}
       >
-        <div className="mb-4 rounded-lg border border-gray-600 [&>*:nth-child(n+2)]:border-t [&>*:nth-child(n+2)]:border-t-gray-600">
+        <div className="mb-2 rounded-lg border border-gray-600 [&>*:nth-child(n+2)]:border-t [&>*:nth-child(n+2)]:border-t-gray-600">
           {fields.map((field, index) => (
             <Flex
               key={field.id}
@@ -118,7 +175,13 @@ export default function TimeIntervals() {
           ))}
         </div>
 
-        <Button type="submit">
+        {!!errors?.intervals?.message && (
+          <Text className="mb-4 text-sm text-error">
+            {errors.intervals?.message}
+          </Text>
+        )}
+
+        <Button type="submit" disabled={isSubmitting}>
           Próximo passo <ArrowRight className="h-4 w-4" />
         </Button>
       </Card>
