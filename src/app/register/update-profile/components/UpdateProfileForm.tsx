@@ -5,7 +5,6 @@ import { Button } from '@/components/Button';
 import { Text } from '@/components/Text';
 import { TextArea } from '@/components/TextArea';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -19,10 +18,16 @@ const updateProfileFormSchema = z.object({
 
 type UpdateProfileFormData = z.infer<typeof updateProfileFormSchema>;
 
-export function UpdateProfileForm() {
-  const router = useRouter();
+interface UpdateProfileFormProps {
+  avatarUrl?: string;
+  username?: string;
+}
 
-  const session = useSession();
+export function UpdateProfileForm({
+  avatarUrl,
+  username,
+}: UpdateProfileFormProps) {
+  const router = useRouter();
 
   const {
     formState: { isSubmitting },
@@ -31,6 +36,10 @@ export function UpdateProfileForm() {
   } = useForm<UpdateProfileFormData>({
     resolver: zodResolver(updateProfileFormSchema),
   });
+
+  if (!username) {
+    router.push('/');
+  }
 
   async function handleUpdateProfile({ bio }: UpdateProfileFormData) {
     try {
@@ -48,7 +57,7 @@ export function UpdateProfileForm() {
         throw new Error(resp.message);
       }
 
-      router.push(`/schedule/${session.data?.user.username}`);
+      router.push(`/schedule/${username}`);
     } catch (err) {
       // eslint-disable-next-line no-console
       console.log({ err });
@@ -60,10 +69,7 @@ export function UpdateProfileForm() {
       <Label>
         <Text className="text-sm">Foto de perfil</Text>
 
-        <Avatar
-          src={session.data?.user.avatar_url}
-          alt={session.data?.user.name || ''}
-        />
+        <Avatar src={avatarUrl} alt={username || ''} />
       </Label>
 
       <Label>

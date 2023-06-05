@@ -7,7 +7,6 @@ import { RegisterForm } from './components/RegisterForm';
 
 interface RegisterProps {
   searchParams: {
-    name: string;
     username: string | string[];
   };
 }
