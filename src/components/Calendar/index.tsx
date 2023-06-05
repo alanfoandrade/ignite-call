@@ -11,10 +11,10 @@ export function Calendar() {
   return (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
-        <Text>
+        <Text className="font-medium">
           Junho{' '}
           <Text as="span" className="text-gray-200">
-            2022
+            2023
           </Text>
         </Text>
 
@@ -33,14 +33,17 @@ export function Calendar() {
         <thead>
           <tr>
             {shortWeekdays.map((weekDay) => (
-              <th key={weekDay} className="text-sm font-medium text-gray-200">
+              <th
+                key={weekDay}
+                className="pb-4 text-sm font-medium text-gray-200"
+              >
                 {weekDay}.
               </th>
             ))}
           </tr>
         </thead>
 
-        <tbody className="before:block before:leading-3 before:text-gray-800 before:content-[.]">
+        <tbody>
           <tr>
             <CalendarDay>1</CalendarDay>
 
@@ -57,19 +60,19 @@ export function Calendar() {
             <CalendarDay>7</CalendarDay>
           </tr>
           <tr>
-            <CalendarDay>1</CalendarDay>
+            <CalendarDay>8</CalendarDay>
 
-            <CalendarDay disabled>2</CalendarDay>
+            <CalendarDay disabled>9</CalendarDay>
 
-            <CalendarDay>3</CalendarDay>
+            <CalendarDay>10</CalendarDay>
 
-            <CalendarDay>4</CalendarDay>
+            <CalendarDay>11</CalendarDay>
 
-            <CalendarDay>5</CalendarDay>
+            <CalendarDay>12</CalendarDay>
 
-            <CalendarDay>6</CalendarDay>
+            <CalendarDay>13</CalendarDay>
 
-            <CalendarDay>7</CalendarDay>
+            <CalendarDay>14</CalendarDay>
           </tr>
         </tbody>
       </table>

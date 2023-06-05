@@ -10,6 +10,7 @@ import { NextAuthProvider } from './providers';
 const roboto = Roboto({
   subsets: ['latin'],
   variable: '--font-roboto',
+  weight: ['400', '500', '700'],
 });
 
 const baiJamjuree = BaiJamjuree({

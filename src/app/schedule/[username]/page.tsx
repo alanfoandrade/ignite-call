@@ -1,5 +1,4 @@
 import { Avatar } from '@/components/Avatar';
-import { Flex } from '@/components/Flex';
 import { Heading } from '@/components/Heading';
 import { Text } from '@/components/Text';
 import { prisma } from '@/lib/prisma';
@@ -25,13 +24,13 @@ export default async function Schedule({ params }: ScheduleProps) {
     <div className="mx-auto mb-4 mt-20 max-w-[852px] px-4">
       {!!user && (
         <>
-          <Flex className="flex-col items-center">
+          <div className="flex flex-col items-center">
             <Avatar src={user.avatar_url || ''} alt={user.name} />
 
             <Heading className="mt-2">{user.name}</Heading>
 
             <Text className="text-gray-200">{user.bio}</Text>
-          </Flex>
+          </div>
 
           <ScheduleForm />
         </>

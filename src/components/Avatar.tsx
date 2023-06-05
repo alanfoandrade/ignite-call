@@ -10,6 +10,8 @@ export interface AvatarProps extends ComponentProps<typeof Image> {
   size?: 'sm' | 'md' | 'lg' | 'xl' | '2xl';
 }
 
+// TODO: Implementar componente avatar que não use o do @radix-ui para não precisar usar 'use client' no componente
+
 export function Avatar({ alt, className, size = 'md', ...props }: AvatarProps) {
   let sizeStyles = '';
 

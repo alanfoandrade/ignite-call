@@ -2,7 +2,6 @@
 
 import { Button } from '@/components/Button';
 import { Checkbox } from '@/components/Checkbox';
-import { Flex } from '@/components/Flex';
 import { HStack } from '@/components/HStack';
 import { Text } from '@/components/Text';
 import { TextInput } from '@/components/TextInput';
@@ -117,9 +116,9 @@ export function TimeIntervalsForm() {
     <Content as="form" onSubmit={handleSubmit(handleSetTimeIntervals)}>
       <div className="mb-2 rounded-lg border border-gray-600 [&>*:nth-child(n+2)]:border-t [&>*:nth-child(n+2)]:border-t-gray-600">
         {fields.map((field, index) => (
-          <Flex
+          <div
             key={field.id}
-            className="items-center justify-between px-4 py-3"
+            className="flex items-center justify-between px-4 py-3"
           >
             <HStack className="gap-3">
               <Controller
@@ -157,7 +156,7 @@ export function TimeIntervalsForm() {
                 {...register(`intervals.${index}.endTime`)}
               />
             </HStack>
-          </Flex>
+          </div>
         ))}
       </div>
 
