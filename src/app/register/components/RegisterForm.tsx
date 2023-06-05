@@ -1,12 +1,9 @@
-'use client';
-
 import { Button } from '@/components/Button';
 import { TextInput } from '@/components/TextInput';
 import { VStack } from '@/components/VStack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
-import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -47,11 +44,9 @@ export function RegisterForm({ username }: RegisterFormProps) {
     resolver: zodResolver(registerFormSchema),
   });
 
-  useEffect(() => {
-    if (username) {
-      setValue('username', username);
-    }
-  }, [username, setValue]);
+  if (username) {
+    setValue('username', username);
+  }
 
   async function handleRegister(data: RegisterFormData) {
     try {

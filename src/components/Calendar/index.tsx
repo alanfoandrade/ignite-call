@@ -1,13 +1,28 @@
 import { getWeekDays } from '@/utils/get-week-days';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 import { Text } from './../Text';
 import { CalendarActionButton } from './components/CalendarActionButton';
 import { CalendarDay } from './components/CalendarDay';
 
-export function Calendar() {
+interface CalendarWeek {
+  days: Array<{
+    date: dayjs.Dayjs;
+    disabled: boolean;
+  }>;
+  week: number;
+}
+
+type CalendarWeeks = CalendarWeek[];
+
+interface CalendarProps {
+  onDateSelected: (date: Date | null) => void;
+  selectedDate: Date | null;
+}
+
+export function Calendar({ onDateSelected, selectedDate }: CalendarProps) {
   const [currentDate, setCurrentDate] = useState(() => dayjs().set('date', 1));
 
   function handlePreviousMonth() {
@@ -27,6 +42,64 @@ export function Calendar() {
   const currentMonth = currentDate.format('MMMM');
 
   const currentYear = currentDate.format('YYYY');
+
+  const calendarWeeks = useMemo(() => {
+    const daysInMonthArray = Array.from({
+      length: currentDate.daysInMonth(),
+    }).map((_, index) => currentDate.set('date', index + 1));
+
+    const firstWeekDay = currentDate.get('day');
+
+    const previousMonthFillArray = Array.from({ length: firstWeekDay })
+      .map((_, index) => currentDate.subtract(index + 1, 'day'))
+      .reverse();
+
+    const lastDayInCurrentMonth = currentDate.set(
+      'date',
+      currentDate.daysInMonth(),
+    );
+
+    const lastWeekDay = lastDayInCurrentMonth.get('day');
+
+    const nextMonthFillArray = Array.from({
+      length: 7 - (lastWeekDay + 1),
+    }).map((_, index) => lastDayInCurrentMonth.add(index + 1, 'day'));
+
+    const calendarDays = [
+      ...previousMonthFillArray.map((date) => ({ date, disabled: true })),
+      ...daysInMonthArray.map((date) => ({
+        date,
+        disabled: date.endOf('day').isBefore(new Date()),
+      })),
+      ...nextMonthFillArray.map((date) => ({ date, disabled: true })),
+    ];
+
+    const calendarWeeksArray = calendarDays.reduce<CalendarWeeks>(
+      (weeks, _, index, original) => {
+        const isNewWeek = index % 7 === 0;
+
+        if (isNewWeek) {
+          weeks.push({
+            days: original.slice(index, index + 7),
+            week: index / 7 + 1,
+          });
+        }
+
+        return weeks;
+      },
+      [],
+    );
+
+    return calendarWeeksArray;
+  }, [currentDate]);
+
+  function handleSelectDate(date: Date) {
+    if (selectedDate?.getTime() === date.getTime()) {
+      return onDateSelected(null);
+    }
+
+    onDateSelected(date);
+  }
 
   return (
     <div className="flex flex-col gap-6 p-6">
@@ -72,36 +145,19 @@ export function Calendar() {
         </thead>
 
         <tbody>
-          <tr>
-            <CalendarDay>1</CalendarDay>
-
-            <CalendarDay disabled>2</CalendarDay>
-
-            <CalendarDay>3</CalendarDay>
-
-            <CalendarDay>4</CalendarDay>
-
-            <CalendarDay>5</CalendarDay>
-
-            <CalendarDay>6</CalendarDay>
-
-            <CalendarDay>7</CalendarDay>
-          </tr>
-          <tr>
-            <CalendarDay>8</CalendarDay>
-
-            <CalendarDay disabled>9</CalendarDay>
-
-            <CalendarDay>10</CalendarDay>
-
-            <CalendarDay>11</CalendarDay>
-
-            <CalendarDay>12</CalendarDay>
-
-            <CalendarDay>13</CalendarDay>
-
-            <CalendarDay>14</CalendarDay>
-          </tr>
+          {calendarWeeks.map(({ days, week }) => (
+            <tr key={week}>
+              {days.map(({ date, disabled }) => (
+                <CalendarDay
+                  key={date.toString()}
+                  disabled={disabled}
+                  onClick={() => handleSelectDate(date.toDate())}
+                >
+                  {date.get('date')}
+                </CalendarDay>
+              ))}
+            </tr>
+          ))}
         </tbody>
       </table>
     </div>

@@ -8,7 +8,15 @@ import { twMerge } from 'tailwind-merge';
 import { TimePicker } from './components/TimePicker';
 
 export function CalendarStep() {
-  const [isDateSelected, setIsDateSelected] = useState(false);
+  const [selectedDate, setSelectedDate] = useState<Date | null>(null);
+
+  const isDateSelected = !!selectedDate;
+
+  async function handleSelectDate(date: Date | null) {
+    // await fetch(`/api/users/alan-andrade/availability`, { cache: 'no-cache' });
+
+    setSelectedDate(date);
+  }
 
   let timePickerOpenVariant = '';
 
@@ -31,9 +39,9 @@ export function CalendarStep() {
         timePickerOpenVariant,
       )}
     >
-      <Calendar />
+      <Calendar onDateSelected={handleSelectDate} selectedDate={selectedDate} />
 
-      {isDateSelected && <TimePicker />}
+      {selectedDate && <TimePicker selectedDate={selectedDate} />}
     </Card>
   );
 }
