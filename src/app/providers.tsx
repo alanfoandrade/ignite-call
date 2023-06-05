@@ -1,5 +1,7 @@
 'use client';
 
+import '../lib/dayjs';
+
 import { SessionProvider } from 'next-auth/react';
 
 type Props = {

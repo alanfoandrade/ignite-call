@@ -1,10 +1,11 @@
+import '../styles/globals.css';
+
 import {
   Roboto_Flex as Roboto,
   Bai_Jamjuree as BaiJamjuree,
 } from 'next/font/google';
 import { ReactNode } from 'react';
 
-import '../styles/globals.css';
 import { NextAuthProvider } from './providers';
 
 const roboto = Roboto({

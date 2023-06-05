@@ -1,29 +1,57 @@
 import { getWeekDays } from '@/utils/get-week-days';
+import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { useState } from 'react';
 
 import { Text } from './../Text';
 import { CalendarActionButton } from './components/CalendarActionButton';
 import { CalendarDay } from './components/CalendarDay';
 
 export function Calendar() {
+  const [currentDate, setCurrentDate] = useState(() => dayjs().set('date', 1));
+
+  function handlePreviousMonth() {
+    const previousMonthDate = currentDate.subtract(1, 'month');
+
+    setCurrentDate(previousMonthDate);
+  }
+
+  function handleNextMonth() {
+    const nextMonthDate = currentDate.add(1, 'month');
+
+    setCurrentDate(nextMonthDate);
+  }
+
   const shortWeekdays = getWeekDays({ short: true });
+
+  const currentMonth = currentDate.format('MMMM');
+
+  const currentYear = currentDate.format('YYYY');
 
   return (
     <div className="flex flex-col gap-6 p-6">
       <div className="flex items-center justify-between">
-        <Text className="font-medium">
-          Junho{' '}
+        <Text className="font-medium capitalize">
+          {currentMonth}{' '}
           <Text as="span" className="text-gray-200">
-            2023
+            {currentYear}
           </Text>
         </Text>
 
         <div className="flex gap-2 text-gray-200">
-          <CalendarActionButton>
+          <CalendarActionButton
+            type="button"
+            onClick={handlePreviousMonth}
+            title="Previous Month"
+          >
             <ChevronLeft />
           </CalendarActionButton>
 
-          <CalendarActionButton>
+          <CalendarActionButton
+            type="button"
+            onClick={handleNextMonth}
+            title="Next Month"
+          >
             <ChevronRight />
           </CalendarActionButton>
         </div>

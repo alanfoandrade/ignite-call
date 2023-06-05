@@ -8,7 +8,7 @@ import { twMerge } from 'tailwind-merge';
 import { TimePicker } from './components/TimePicker';
 
 export function CalendarStep() {
-  const [isDateSelected, setIsDateSelected] = useState(true);
+  const [isDateSelected, setIsDateSelected] = useState(false);
 
   let timePickerOpenVariant = '';
 

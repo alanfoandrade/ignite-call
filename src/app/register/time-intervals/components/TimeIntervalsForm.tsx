@@ -136,7 +136,7 @@ export function TimeIntervalsForm() {
                 }}
               />
 
-              <Text>{weekDays[field.weekDay]}</Text>
+              <Text className="capitalize">{weekDays[field.weekDay]}</Text>
             </HStack>
 
             <HStack className="gap-2">
