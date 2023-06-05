@@ -19,11 +19,10 @@ interface Availability {
 
 interface TimePickerProps {
   selectedDate: Date;
+  username: string;
 }
 
-export function TimePicker({ selectedDate }: TimePickerProps) {
-  const { username } = useParams();
-
+export function TimePicker({ selectedDate, username }: TimePickerProps) {
   const [availability, setAvailability] = useState<Availability | null>(null);
 
   const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null;
@@ -39,9 +38,9 @@ export function TimePicker({ selectedDate }: TimePickerProps) {
           `/api/users/${username}/availability?date=${date}`,
         );
 
-        const availability: Availability = await response.json();
+        const availabilityData: Availability = await response.json();
 
-        setAvailability(availability);
+        setAvailability(availabilityData);
       } catch (err) {
         // eslint-disable-next-line no-console
         console.log(err);

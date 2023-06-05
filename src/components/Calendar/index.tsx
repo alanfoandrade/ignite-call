@@ -1,3 +1,5 @@
+'use client';
+
 import { getWeekDays } from '@/utils/get-week-days';
 import dayjs from 'dayjs';
 import { ChevronLeft, ChevronRight } from 'lucide-react';

@@ -2,21 +2,18 @@
 
 import { Calendar } from '@/components/Calendar';
 import { Card } from '@/components/Card';
+import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { TimePicker } from './components/TimePicker';
 
 export function CalendarStep() {
+  const { username } = useParams();
+
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const isDateSelected = !!selectedDate;
-
-  async function handleSelectDate(date: Date | null) {
-    // await fetch(`/api/users/alan-andrade/availability`, { cache: 'no-cache' });
-
-    setSelectedDate(date);
-  }
 
   let timePickerOpenVariant = '';
 
@@ -39,9 +36,11 @@ export function CalendarStep() {
         timePickerOpenVariant,
       )}
     >
-      <Calendar onDateSelected={handleSelectDate} selectedDate={selectedDate} />
+      <Calendar onDateSelected={setSelectedDate} selectedDate={selectedDate} />
 
-      {selectedDate && <TimePicker selectedDate={selectedDate} />}
+      {!!isDateSelected && (
+        <TimePicker selectedDate={selectedDate} username={username} />
+      )}
     </Card>
   );
 }
