@@ -4,13 +4,13 @@ import { Avatar } from '@/components/Avatar';
 import { Button } from '@/components/Button';
 import { Text } from '@/components/Text';
 import { TextArea } from '@/components/TextArea';
+import { VStack } from '@/components/VStack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useRouter } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { Content } from '../../components/_layout/Content';
-import { Label } from '../../components/_layout/Label';
 
 const updateProfileFormSchema = z.object({
   bio: z.string(),
@@ -66,13 +66,13 @@ export function UpdateProfileForm({
 
   return (
     <Content as="form" onSubmit={handleSubmit(handleUpdateProfile)}>
-      <Label>
+      <VStack as="label">
         <Text className="text-sm">Foto de perfil</Text>
 
         <Avatar src={avatarUrl} alt={username || ''} />
-      </Label>
+      </VStack>
 
-      <Label>
+      <VStack as="label">
         <Text className="text-sm">Sobre você</Text>
 
         <TextArea {...register('bio')} />
@@ -80,7 +80,7 @@ export function UpdateProfileForm({
         <Text className="text-sm text-gray-200">
           Fale um pouco sobre você. Isto será exibido em sua página pessoal.
         </Text>
-      </Label>
+      </VStack>
 
       <Button type="submit" disabled={!!isSubmitting}>
         Finalizar

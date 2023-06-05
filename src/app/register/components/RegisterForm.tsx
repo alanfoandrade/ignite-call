@@ -2,6 +2,7 @@
 
 import { Button } from '@/components/Button';
 import { TextInput } from '@/components/TextInput';
+import { VStack } from '@/components/VStack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -11,7 +12,6 @@ import { z } from 'zod';
 
 import { Text } from '../../../components/Text';
 import { Content } from './_layout/Content';
-import { Label } from './_layout/Label';
 
 const registerFormSchema = z.object({
   name: z
@@ -88,7 +88,7 @@ export function RegisterForm({ username }: RegisterFormProps) {
 
   return (
     <Content as="form" onSubmit={handleSubmit(handleRegister)}>
-      <Label>
+      <VStack as="label">
         <Text className="text-sm">Nome de usuário</Text>
 
         <TextInput
@@ -97,9 +97,9 @@ export function RegisterForm({ username }: RegisterFormProps) {
           {...register('username')}
           error={errors.username}
         />
-      </Label>
+      </VStack>
 
-      <Label>
+      <VStack as="label">
         <Text className="text-sm">Nome completo</Text>
 
         <TextInput
@@ -107,7 +107,7 @@ export function RegisterForm({ username }: RegisterFormProps) {
           {...register('name')}
           error={errors.name}
         />
-      </Label>
+      </VStack>
 
       <Button type="submit" disabled={!!isSubmitting}>
         Próximo passo <ArrowRight className="h-4 w-4" />
