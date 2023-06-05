@@ -2,7 +2,6 @@
 
 import { Text } from '@/components/Text';
 import dayjs from 'dayjs';
-import { useParams } from 'next/navigation';
 import { useEffect, useState } from 'react';
 
 import { TimePickerItem } from './components/TimePickerItem';
