@@ -27,6 +27,9 @@ export const authOptions: NextAuthOptions = {
     GoogleProvider({
       authorization: {
         params: {
+          access_type: 'offline',
+          prompt: 'consent',
+          response_type: 'code',
           scope: 'email profile https://www.googleapis.com/auth/calendar',
         },
       },

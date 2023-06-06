@@ -1,5 +1,7 @@
+import { getGoogleOAuthToken } from '@/lib/google';
 import { prisma } from '@/lib/prisma';
 import dayjs from 'dayjs';
+import { google } from 'googleapis';
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 
@@ -67,13 +69,47 @@ export async function POST(
     );
   }
 
-  await prisma.scheduling.create({
+  const scheduling = await prisma.scheduling.create({
     data: {
       date: scheculingDate.toDate(),
       email,
       name,
       observations,
       user_id: user.id,
+    },
+  });
+
+  const calendar = google.calendar({
+    auth: await getGoogleOAuthToken(user.id),
+    version: 'v3',
+  });
+
+  await calendar.events.insert({
+    calendarId: 'primary',
+    conferenceDataVersion: 1,
+    requestBody: {
+      attendees: [
+        {
+          displayName: name,
+          email,
+        },
+      ],
+      conferenceData: {
+        createRequest: {
+          conferenceSolutionKey: {
+            type: 'hangoutsMeet',
+          },
+          requestId: scheduling.id,
+        },
+      },
+      description: observations,
+      end: {
+        dateTime: scheculingDate.add(1, 'hour').format(),
+      },
+      start: {
+        dateTime: scheculingDate.format(),
+      },
+      summary: `Ignite Call: ${name}`,
     },
   });
 
