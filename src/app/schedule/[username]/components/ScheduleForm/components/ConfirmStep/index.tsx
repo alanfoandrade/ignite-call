@@ -10,6 +10,7 @@ import { VStack } from '@/components/VStack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import dayjs from 'dayjs';
 import { Calendar, Clock } from 'lucide-react';
+import { useParams } from 'next/navigation';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -22,11 +23,16 @@ const confirmFormSchema = z.object({
 type ConfirmFormData = z.infer<typeof confirmFormSchema>;
 
 interface ConfirmStepProps {
-  onCancel: () => void;
+  onClearSelectedDate: () => void;
   schedulingDate: Date;
 }
 
-export function ConfirmStep({ onCancel, schedulingDate }: ConfirmStepProps) {
+export function ConfirmStep({
+  onClearSelectedDate,
+  schedulingDate,
+}: ConfirmStepProps) {
+  const { username } = useParams();
+
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -35,9 +41,20 @@ export function ConfirmStep({ onCancel, schedulingDate }: ConfirmStepProps) {
     resolver: zodResolver(confirmFormSchema),
   });
 
-  function handleConfirmScheduling(data: ConfirmFormData) {
-    // eslint-disable-next-line no-console
-    console.log(data);
+  async function handleConfirmScheduling({
+    email,
+    name,
+    observations,
+  }: ConfirmFormData) {
+    await fetch(`/api/users/${username}/schedule`, {
+      body: JSON.stringify({ date: schedulingDate, email, name, observations }),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      method: 'POST',
+    });
+
+    onClearSelectedDate();
   }
 
   const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY');
@@ -91,7 +108,7 @@ export function ConfirmStep({ onCancel, schedulingDate }: ConfirmStepProps) {
       </VStack>
 
       <HStack className="mt-2 justify-end">
-        <Button type="button" variant="tertiary" onClick={onCancel}>
+        <Button type="button" variant="tertiary" onClick={onClearSelectedDate}>
           Cancelar
         </Button>
 
