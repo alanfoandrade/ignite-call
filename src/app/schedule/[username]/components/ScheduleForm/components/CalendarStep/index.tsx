@@ -2,18 +2,41 @@
 
 import { Calendar } from '@/components/Calendar';
 import { Card } from '@/components/Card';
+import { useQuery } from '@tanstack/react-query';
 import { useParams } from 'next/navigation';
 import { useState } from 'react';
 import { twMerge } from 'tailwind-merge';
 
 import { TimePicker } from './components/TimePicker';
 
+interface BlockedDates {
+  blockedWeekDays: number[];
+}
+
 export function CalendarStep() {
   const { username } = useParams();
 
+  const [currentDate, setCurrentDate] = useState<Date>(new Date());
   const [selectedDate, setSelectedDate] = useState<Date | null>(null);
 
   const isDateSelected = !!selectedDate;
+
+  const year = currentDate.getFullYear();
+
+  const month = currentDate.getMonth();
+
+  const { data: blockedDates } = useQuery<BlockedDates>(
+    ['blocked-dates', year, month],
+    async () => {
+      const response = await fetch(
+        `/api/users/${username}/blocked-dates?year=${year}&month=${month}`,
+      );
+
+      const unavailableDates = await response.json();
+
+      return unavailableDates;
+    },
+  );
 
   let timePickerOpenVariant = '';
 
@@ -36,7 +59,13 @@ export function CalendarStep() {
         timePickerOpenVariant,
       )}
     >
-      <Calendar onDateSelected={setSelectedDate} selectedDate={selectedDate} />
+      <Calendar
+        blockedWeekDays={blockedDates?.blockedWeekDays}
+        currentDate={currentDate}
+        onDateChange={setCurrentDate}
+        onDateSelected={setSelectedDate}
+        selectedDate={selectedDate}
+      />
 
       {!!isDateSelected && (
         <TimePicker selectedDate={selectedDate} username={username} />

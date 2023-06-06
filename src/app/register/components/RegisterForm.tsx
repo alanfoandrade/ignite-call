@@ -1,3 +1,5 @@
+'use client';
+
 import { Button } from '@/components/Button';
 import { TextInput } from '@/components/TextInput';
 import { VStack } from '@/components/VStack';
