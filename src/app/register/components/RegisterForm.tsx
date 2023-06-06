@@ -4,6 +4,7 @@ import { VStack } from '@/components/VStack';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { ArrowRight } from 'lucide-react';
 import { useRouter } from 'next/navigation';
+import { useEffect } from 'react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -44,9 +45,11 @@ export function RegisterForm({ username }: RegisterFormProps) {
     resolver: zodResolver(registerFormSchema),
   });
 
-  if (username) {
-    setValue('username', username);
-  }
+  useEffect(() => {
+    if (username) {
+      setValue('username', username);
+    }
+  }, [setValue, username]);
 
   async function handleRegister(data: RegisterFormData) {
     try {

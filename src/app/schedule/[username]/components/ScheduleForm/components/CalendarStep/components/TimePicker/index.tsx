@@ -1,15 +1,8 @@
-'use client';
-
 import { Text } from '@/components/Text';
+import { useQuery } from '@tanstack/react-query';
 import dayjs from 'dayjs';
-import { useEffect, useState } from 'react';
 
 import { TimePickerItem } from './components/TimePickerItem';
-
-interface LoadAvailabilityProps {
-  date: string; // YYYY-MM-DD
-  username: string;
-}
 
 interface Availability {
   availableTimes: number[];
@@ -22,35 +15,24 @@ interface TimePickerProps {
 }
 
 export function TimePicker({ selectedDate, username }: TimePickerProps) {
-  const [availability, setAvailability] = useState<Availability | null>(null);
+  const weekDay = dayjs(selectedDate).format('dddd');
 
-  const weekDay = selectedDate ? dayjs(selectedDate).format('dddd') : null;
+  const monthDay = dayjs(selectedDate).format(`DD[ de ]MMMM`);
 
-  const monthDay = selectedDate
-    ? dayjs(selectedDate).format(`DD[ de ]MMMM`)
-    : null;
+  const dateOnly = dayjs(selectedDate).format('YYYY-MM-DD');
 
-  useEffect(() => {
-    async function loadAvailability({ date, username }: LoadAvailabilityProps) {
-      try {
-        const response = await fetch(
-          `/api/users/${username}/availability?date=${date}`,
-        );
+  const { data: availability } = useQuery<Availability>(
+    ['availability', dateOnly, username],
+    async () => {
+      const response = await fetch(
+        `/api/users/${username}/availability?date=${dateOnly}`,
+      );
 
-        const availabilityData: Availability = await response.json();
+      const availability = await response.json();
 
-        setAvailability(availabilityData);
-      } catch (err) {
-        // eslint-disable-next-line no-console
-        console.log(err);
-      }
-    }
-
-    loadAvailability({
-      date: dayjs(selectedDate).format('YYYY-MM-DD'),
-      username,
-    });
-  }, [selectedDate, username]);
+      return availability;
+    },
+  );
 
   return (
     <div className="absolute bottom-0 right-0 top-0 w-[280px] overflow-y-scroll border-l border-l-gray-600 px-6 pt-6">

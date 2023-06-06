@@ -1,3 +1,5 @@
+import 'server-only';
+
 import { Avatar } from '@/components/Avatar';
 import { Heading } from '@/components/Heading';
 import { Text } from '@/components/Text';

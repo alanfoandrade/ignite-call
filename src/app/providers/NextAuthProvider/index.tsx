@@ -1,11 +1,10 @@
 'use client';
 
-import '../lib/dayjs';
-
 import { SessionProvider } from 'next-auth/react';
+import { ReactNode } from 'react';
 
 type Props = {
-  children?: React.ReactNode;
+  children?: ReactNode;
 };
 
 export const NextAuthProvider = ({ children }: Props) => {
