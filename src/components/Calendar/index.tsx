@@ -6,11 +6,6 @@ import { Text } from './../Text';
 import { CalendarActionButton } from './components/CalendarActionButton';
 import { CalendarDay } from './components/CalendarDay';
 
-interface ParseCalendarWeeksProps {
-  blockedWeekDays?: number[] | null;
-  currentDate: dayjs.Dayjs;
-}
-
 interface CalendarWeek {
   days: Array<{
     date: dayjs.Dayjs;
@@ -21,20 +16,30 @@ interface CalendarWeek {
 
 type CalendarWeeks = CalendarWeek[];
 
+interface UnavailableDates {
+  blockedDates: number[];
+  blockedWeekDays: number[];
+}
+
+interface ParseCalendarWeeksProps {
+  currentDate: dayjs.Dayjs;
+  unavailableDates?: UnavailableDates | null;
+}
+
 interface CalendarProps {
-  blockedWeekDays?: number[] | null;
   currentDate?: Date;
   onDateChange: (date: Date) => void;
   onDateSelected: (date: Date | null) => void;
   selectedDate: Date | null;
+  unavailableDates?: UnavailableDates | null;
 }
 
 export function Calendar({
-  blockedWeekDays,
   currentDate: date,
   onDateChange,
   onDateSelected,
   selectedDate,
+  unavailableDates,
 }: CalendarProps) {
   const currentDate = date
     ? dayjs(date).set('date', 1)
@@ -59,10 +64,10 @@ export function Calendar({
   const currentYear = currentDate.format('YYYY');
 
   function parseCalendarWeeks({
-    blockedWeekDays,
     currentDate,
+    unavailableDates,
   }: ParseCalendarWeeksProps) {
-    if (blockedWeekDays === null) {
+    if (unavailableDates === null) {
       return [];
     }
 
@@ -93,7 +98,8 @@ export function Calendar({
         date,
         disabled:
           date.endOf('day').isBefore(new Date()) ||
-          !!blockedWeekDays?.includes(date.get('day')),
+          !!unavailableDates?.blockedWeekDays?.includes(date.get('day')) ||
+          !!unavailableDates?.blockedDates?.includes(date.get('date')),
       })),
       ...nextMonthFillArray.map((date) => ({ date, disabled: true })),
     ];
@@ -117,7 +123,7 @@ export function Calendar({
     return calendarWeeks;
   }
 
-  const calendarWeeks = parseCalendarWeeks({ blockedWeekDays, currentDate });
+  const calendarWeeks = parseCalendarWeeks({ currentDate, unavailableDates });
 
   function handleSelectDate(date: Date) {
     if (selectedDate?.getTime() === date.getTime()) {

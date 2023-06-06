@@ -10,6 +10,7 @@ import { twMerge } from 'tailwind-merge';
 import { TimePicker } from './components/TimePicker';
 
 interface BlockedDates {
+  blockedDates: number[];
   blockedWeekDays: number[];
 }
 
@@ -23,18 +24,16 @@ export function CalendarStep() {
 
   const year = currentDate.getFullYear();
 
-  const month = currentDate.getMonth();
+  const month = currentDate.getMonth() + 1;
 
-  const { data: blockedDates } = useQuery<BlockedDates>(
+  const { data: unavailableDates } = useQuery<BlockedDates>(
     ['blocked-dates', year, month],
     async () => {
       const response = await fetch(
         `/api/users/${username}/blocked-dates?year=${year}&month=${month}`,
       );
 
-      const unavailableDates = await response.json();
-
-      return unavailableDates;
+      return response.json();
     },
   );
 
@@ -55,12 +54,12 @@ export function CalendarStep() {
   return (
     <Card
       className={twMerge(
-        'relative mx-auto mb-0 mt-6 grid p-0 ',
+        'relative mx-auto mb-0 mt-6 grid p-0',
         timePickerOpenVariant,
       )}
     >
       <Calendar
-        blockedWeekDays={blockedDates?.blockedWeekDays ?? null}
+        unavailableDates={unavailableDates ?? null}
         currentDate={currentDate}
         onDateChange={setCurrentDate}
         onDateSelected={setSelectedDate}

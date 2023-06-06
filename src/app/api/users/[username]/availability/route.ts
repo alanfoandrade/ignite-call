@@ -76,10 +76,15 @@ export async function GET(
     },
   });
 
-  const availableTimes = possibleTimes.filter(
-    (time) =>
-      !blockedTimes.some((blockedTime) => blockedTime.date.getHours() === time),
-  );
+  const availableTimes = possibleTimes.filter((time) => {
+    const isTimeBlocked = blockedTimes.some(
+      (blockedTime) => blockedTime.date.getHours() === time,
+    );
+
+    const isTimeInpast = referenceDate.set('hour', time).isBefore(new Date());
+
+    return !isTimeBlocked && !isTimeInpast;
+  });
 
   return NextResponse.json({ availableTimes, possibleTimes });
 }
