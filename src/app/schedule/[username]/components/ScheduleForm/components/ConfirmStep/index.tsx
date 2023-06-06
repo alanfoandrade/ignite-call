@@ -8,6 +8,7 @@ import { TextArea } from '@/components/TextArea';
 import { TextInput } from '@/components/TextInput';
 import { VStack } from '@/components/VStack';
 import { zodResolver } from '@hookform/resolvers/zod';
+import dayjs from 'dayjs';
 import { Calendar, Clock } from 'lucide-react';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
@@ -20,7 +21,12 @@ const confirmFormSchema = z.object({
 
 type ConfirmFormData = z.infer<typeof confirmFormSchema>;
 
-export function ConfirmStep() {
+interface ConfirmStepProps {
+  onCancel: () => void;
+  schedulingDate: Date;
+}
+
+export function ConfirmStep({ onCancel, schedulingDate }: ConfirmStepProps) {
   const {
     formState: { errors, isSubmitting },
     handleSubmit,
@@ -34,6 +40,9 @@ export function ConfirmStep() {
     console.log(data);
   }
 
+  const describedDate = dayjs(schedulingDate).format('DD[ de ]MMMM[ de ]YYYY');
+  const describedTime = dayjs(schedulingDate).format('HH:mm[h]');
+
   return (
     <Card
       as="form"
@@ -44,13 +53,13 @@ export function ConfirmStep() {
         <HStack>
           <Calendar className="h-5 w-5 text-gray-200" />
 
-          <Text>05 de junho de 2023</Text>
+          <Text>{describedDate}</Text>
         </HStack>
 
         <HStack>
           <Clock className="h-5 w-5 text-gray-200" />
 
-          <Text>10:00h</Text>
+          <Text>{describedTime}</Text>
         </HStack>
       </HStack>
 
@@ -82,7 +91,7 @@ export function ConfirmStep() {
       </VStack>
 
       <HStack className="mt-2 justify-end">
-        <Button type="button" variant="tertiary">
+        <Button type="button" variant="tertiary" onClick={onCancel}>
           Cancelar
         </Button>
 

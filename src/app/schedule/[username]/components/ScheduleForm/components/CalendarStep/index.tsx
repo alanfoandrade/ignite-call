@@ -14,7 +14,11 @@ interface BlockedDates {
   blockedWeekDays: number[];
 }
 
-export function CalendarStep() {
+interface CalendarStepProps {
+  onSelectDateTime: (date: Date) => void;
+}
+
+export function CalendarStep({ onSelectDateTime }: CalendarStepProps) {
   const { username } = useParams();
 
   const [currentDate, setCurrentDate] = useState<Date>(new Date());
@@ -41,7 +45,8 @@ export function CalendarStep() {
 
   switch (isDateSelected) {
     case true:
-      timePickerOpenVariant = 'grid-cols-[1fr_280px] max-md:grid-cols-1';
+      timePickerOpenVariant =
+        'grid-cols-[1fr_280px] max-md:grid-cols-1 max-md:w-[540px] max-md:grid-rows-[1fr_300px]';
 
       break;
 
@@ -67,7 +72,11 @@ export function CalendarStep() {
       />
 
       {!!isDateSelected && (
-        <TimePicker selectedDate={selectedDate} username={username} />
+        <TimePicker
+          selectedDate={selectedDate}
+          username={username}
+          onSelectDateTime={onSelectDateTime}
+        />
       )}
     </Card>
   );

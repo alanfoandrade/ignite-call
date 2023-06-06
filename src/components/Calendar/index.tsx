@@ -49,12 +49,14 @@ export function Calendar({
     const previousMonthDate = currentDate.subtract(1, 'month');
 
     onDateChange(previousMonthDate.toDate());
+    onDateSelected(null);
   }
 
   function handleNextMonth() {
     const nextMonthDate = currentDate.add(1, 'month');
 
     onDateChange(nextMonthDate.toDate());
+    onDateSelected(null);
   }
 
   const shortWeekdays = getWeekDays({ short: true });
