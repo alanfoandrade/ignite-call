@@ -6,6 +6,11 @@ import { Text } from './../Text';
 import { CalendarActionButton } from './components/CalendarActionButton';
 import { CalendarDay } from './components/CalendarDay';
 
+interface ParseCalendarWeeksProps {
+  blockedWeekDays?: number[] | null;
+  currentDate: dayjs.Dayjs;
+}
+
 interface CalendarWeek {
   days: Array<{
     date: dayjs.Dayjs;
@@ -17,7 +22,7 @@ interface CalendarWeek {
 type CalendarWeeks = CalendarWeek[];
 
 interface CalendarProps {
-  blockedWeekDays?: number[];
+  blockedWeekDays?: number[] | null;
   currentDate?: Date;
   onDateChange: (date: Date) => void;
   onDateSelected: (date: Date | null) => void;
@@ -31,7 +36,9 @@ export function Calendar({
   onDateSelected,
   selectedDate,
 }: CalendarProps) {
-  const currentDate = date ? dayjs(date) : dayjs().set('date', 1);
+  const currentDate = date
+    ? dayjs(date).set('date', 1)
+    : dayjs().set('date', 1);
 
   function handlePreviousMonth() {
     const previousMonthDate = currentDate.subtract(1, 'month');
@@ -51,53 +58,66 @@ export function Calendar({
 
   const currentYear = currentDate.format('YYYY');
 
-  const daysInMonthArray = Array.from({
-    length: currentDate.daysInMonth(),
-  }).map((_, index) => currentDate.set('date', index + 1));
+  function parseCalendarWeeks({
+    blockedWeekDays,
+    currentDate,
+  }: ParseCalendarWeeksProps) {
+    if (blockedWeekDays === null) {
+      return [];
+    }
 
-  const firstWeekDay = currentDate.get('day');
+    const daysInMonthArray = Array.from({
+      length: currentDate.daysInMonth(),
+    }).map((_, index) => currentDate.set('date', index + 1));
 
-  const previousMonthFillArray = Array.from({ length: firstWeekDay })
-    .map((_, index) => currentDate.subtract(index + 1, 'day'))
-    .reverse();
+    const firstWeekDay = currentDate.get('day');
 
-  const lastDayInCurrentMonth = currentDate.set(
-    'date',
-    currentDate.daysInMonth(),
-  );
+    const previousMonthFillArray = Array.from({ length: firstWeekDay })
+      .map((_, index) => currentDate.subtract(index + 1, 'day'))
+      .reverse();
 
-  const lastWeekDay = lastDayInCurrentMonth.get('day');
+    const lastDayInCurrentMonth = currentDate.set(
+      'date',
+      currentDate.daysInMonth(),
+    );
 
-  const nextMonthFillArray = Array.from({
-    length: 7 - (lastWeekDay + 1),
-  }).map((_, index) => lastDayInCurrentMonth.add(index + 1, 'day'));
+    const lastWeekDay = lastDayInCurrentMonth.get('day');
 
-  const calendarDays = [
-    ...previousMonthFillArray.map((date) => ({ date, disabled: true })),
-    ...daysInMonthArray.map((date) => ({
-      date,
-      disabled:
-        !!date.endOf('day').isBefore(new Date()) ||
-        !!blockedWeekDays?.includes(date.get('day')),
-    })),
-    ...nextMonthFillArray.map((date) => ({ date, disabled: true })),
-  ];
+    const nextMonthFillArray = Array.from({
+      length: 7 - (lastWeekDay + 1),
+    }).map((_, index) => lastDayInCurrentMonth.add(index + 1, 'day'));
 
-  const calendarWeeks = calendarDays.reduce<CalendarWeeks>(
-    (weeks, _, index, original) => {
-      const isNewWeek = index % 7 === 0;
+    const calendarDays = [
+      ...previousMonthFillArray.map((date) => ({ date, disabled: true })),
+      ...daysInMonthArray.map((date) => ({
+        date,
+        disabled:
+          date.endOf('day').isBefore(new Date()) ||
+          !!blockedWeekDays?.includes(date.get('day')),
+      })),
+      ...nextMonthFillArray.map((date) => ({ date, disabled: true })),
+    ];
 
-      if (isNewWeek) {
-        weeks.push({
-          days: original.slice(index, index + 7),
-          week: index / 7 + 1,
-        });
-      }
+    const calendarWeeks = calendarDays.reduce<CalendarWeeks>(
+      (weeks, _, index, original) => {
+        const isNewWeek = index % 7 === 0;
 
-      return weeks;
-    },
-    [],
-  );
+        if (isNewWeek) {
+          weeks.push({
+            days: original.slice(index, index + 7),
+            week: index / 7 + 1,
+          });
+        }
+
+        return weeks;
+      },
+      [],
+    );
+
+    return calendarWeeks;
+  }
+
+  const calendarWeeks = parseCalendarWeeks({ blockedWeekDays, currentDate });
 
   function handleSelectDate(date: Date) {
     if (selectedDate?.getTime() === date.getTime()) {

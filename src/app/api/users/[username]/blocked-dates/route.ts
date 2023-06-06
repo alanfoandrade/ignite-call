@@ -1,5 +1,4 @@
 import { prisma } from '@/lib/prisma';
-import dayjs from 'dayjs';
 import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(

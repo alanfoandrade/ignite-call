@@ -124,16 +124,14 @@ export function TimeIntervalsForm() {
               <Controller
                 name={`intervals.${index}.enabled`}
                 control={control}
-                render={({ field }) => {
-                  return (
-                    <Checkbox
-                      checked={field.value}
-                      onCheckedChange={(checked) =>
-                        field.onChange(checked === true)
-                      }
-                    />
-                  );
-                }}
+                render={({ field }) => (
+                  <Checkbox
+                    checked={field.value}
+                    onCheckedChange={(checked) =>
+                      field.onChange(checked === true)
+                    }
+                  />
+                )}
               />
 
               <Text className="capitalize">{weekDays[field.weekDay]}</Text>

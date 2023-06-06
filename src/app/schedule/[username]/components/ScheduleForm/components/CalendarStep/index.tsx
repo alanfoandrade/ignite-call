@@ -60,7 +60,7 @@ export function CalendarStep() {
       )}
     >
       <Calendar
-        blockedWeekDays={blockedDates?.blockedWeekDays}
+        blockedWeekDays={blockedDates?.blockedWeekDays ?? null}
         currentDate={currentDate}
         onDateChange={setCurrentDate}
         onDateSelected={setSelectedDate}

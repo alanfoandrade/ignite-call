@@ -30,6 +30,7 @@ export function ConfirmStep() {
   });
 
   function handleConfirmScheduling(data: ConfirmFormData) {
+    // eslint-disable-next-line no-console
     console.log(data);
   }
 

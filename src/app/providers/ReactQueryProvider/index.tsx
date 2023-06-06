@@ -8,8 +8,6 @@ type Props = {
   children?: ReactNode;
 };
 
-export const ReactQueryProvider = ({ children }: Props) => {
-  return (
-    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
-  );
-};
+export const ReactQueryProvider = ({ children }: Props) => (
+  <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
+);
