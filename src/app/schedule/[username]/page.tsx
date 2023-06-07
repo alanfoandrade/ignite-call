@@ -9,11 +9,27 @@ import { ScheduleForm } from './components/ScheduleForm';
 
 export const revalidate = 86400; // 1 day
 
+export const metadata = {
+  title: 'Agendar horário ',
+};
+
 interface ScheduleProps {
   params: {
     username: string | string[];
   };
 }
+
+// export async function generateMetadata({ params }: ScheduleProps) {
+//   const user = await prisma.user.findFirst({
+//     where: {
+//       username: String(params.username),
+//     },
+//   });
+
+//   return {
+//     title: `Agendar com ${user?.name}`,
+//   };
+// }
 
 export default async function Schedule({ params }: ScheduleProps) {
   const user = await prisma.user.findFirst({

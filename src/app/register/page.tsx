@@ -5,6 +5,10 @@ import { Text } from '@/components/Text';
 import { Header } from './components/_layout/Header';
 import { RegisterForm } from './components/RegisterForm';
 
+export const metadata = {
+  title: 'Crie uma conta',
+};
+
 interface RegisterProps {
   searchParams: {
     username?: string | string[];

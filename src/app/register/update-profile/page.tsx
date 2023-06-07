@@ -7,6 +7,13 @@ import { getServerSession } from 'next-auth';
 import { Header } from '../components/_layout/Header';
 import { UpdateProfileForm } from './components/UpdateProfileForm';
 
+export const metadata = {
+  robots: {
+    index: false,
+  },
+  title: 'Atualize seu perfil',
+};
+
 export default async function UpdateProfile() {
   const session = await getServerSession(authOptions);
 

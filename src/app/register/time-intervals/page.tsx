@@ -5,6 +5,13 @@ import { Text } from '@/components/Text';
 import { Header } from '../components/_layout/Header';
 import { TimeIntervalsForm } from './components/TimeIntervalsForm';
 
+export const metadata = {
+  robots: {
+    index: false,
+  },
+  title: 'Selecione sua disponibilidade',
+};
+
 export default function TimeIntervals() {
   return (
     <>

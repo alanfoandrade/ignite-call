@@ -21,13 +21,17 @@ const baiJamjuree = BaiJamjuree({
 });
 
 export const metadata = {
-  description: 'App Ignite Call',
-  title: 'Ignite Call',
+  description:
+    'Conecte seu calendário e permita que as pessoas marquem agendamentos no seu tempo livre',
+  title: {
+    default: 'Descomplique sua agenda | Ignite Call',
+    template: '%s | Ignite Call',
+  },
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
   return (
-    <html lang="en">
+    <html lang="pt-BR">
       <body
         className={`${roboto.variable} ${baiJamjuree.variable} bg-gray-900 font-sans leading-relaxed text-gray-100`}
       >

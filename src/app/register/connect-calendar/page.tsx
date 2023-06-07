@@ -7,6 +7,13 @@ import { getServerSession } from 'next-auth';
 import { Header } from '../components/_layout/Header';
 import { ConnectCalendarForm } from './components/ConnectCalendarForm';
 
+export const metadata = {
+  robots: {
+    index: false,
+  },
+  title: 'Conecte sua agenda do google',
+};
+
 interface ConnectCalendarProps {
   searchParams: {
     error?: string;
